@@ -119,6 +119,7 @@ const Dashboard = () => {
             <p style={{ 
                     color: "#333", 
                     fontSize: "24px",
+                    fontWeight: "bold",
                     marginBottom: "13px",
                 }}>
                 {patient.phoneNumber}
