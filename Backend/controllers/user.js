@@ -15,7 +15,6 @@ exports.addUser = (req,res) => {
             })
         } else {
             const userData = new User({
-                name: req.body.name,
                 phoneNumber : req.body.phoneNumber,
                 appointmentDate : req.body.appointmentDate,
                 showTime: req.body.showTime,
@@ -96,7 +95,6 @@ exports.editUser = (req,res) => {
     User.findOne({phoneNumber : phoneNumber})
     .then(data => {
         if(data){
-            data.name = req.body.name; 
             data.appointmentDate = req.body.appointmentDate;
             data.showTime= req.body.showTime;
             data.status= req.body.status;
@@ -158,7 +156,7 @@ exports.searchByUserName = (req,res) => {
     let totalLength = 0;
     User.find().then(data => totalLength = data.length)
     .then(() => {
-        User.find({name : {$regex : req.query.name}}).limit(limit).skip((pages-1)*limit)
+        User.find({phoneNumber : {$regex : req.query.phoneNumber}}).limit(limit).skip((pages-1)*limit)
         .then(data => {
             res.status(200).json({
                 message : "Data Fetched",

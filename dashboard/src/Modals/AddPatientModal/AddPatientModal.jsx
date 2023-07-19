@@ -8,7 +8,6 @@ import { DesktopTimePicker } from '@mui/x-date-pickers/DesktopTimePicker';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 
 const AddPatientModal = ({ closeModal }) => {
-  const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [appointmentDate, setAppointmentDate] = useState(dayjs(new Date()));
   const [time, setTime] = useState(dayjs('2023-07-12T01:00'));
@@ -19,9 +18,6 @@ const AddPatientModal = ({ closeModal }) => {
   const showDate= dayjs(appointmentDate).format();
   const showTime= time.format("HH:mm");
 
-  const handleChangeName = (event) => {
-    setName(event.target.value);
-  };
 
   const handleChangePhoneNumber = (event) => {
     setPhoneNumber(event.target.value);
@@ -32,10 +28,10 @@ const AddPatientModal = ({ closeModal }) => {
   };
 
   const handleSubmit = () => {
-    if(name == "" || phoneNumber == "" || appointmentDate == "" || showTime == ""){
-        setError("Please Provide A Valid Name, Phone Number, Appointment Date and Time")
+    if(phoneNumber == "" || appointmentDate == "" || showTime == ""){
+        setError("Please Provide A Valid Phone Number, Appointment Date and Time")
     } else {
-        axios.post("https://imara-health-backend-v2.onrender.com/add-user", {name,phoneNumber,appointmentDate,showTime,status,whatChanged})
+        axios.post("https://imara-health-backend-v2.onrender.com/add-user", {phoneNumber,appointmentDate,showTime,status,whatChanged})
         .then(response => {
             if(response.status == 500 || response.data.message == "Phone Number Already Registered"){
                 setError(response.data.message);
@@ -60,15 +56,6 @@ const AddPatientModal = ({ closeModal }) => {
       </div>
       <div className="modal-body">
         <div className="modal-form">
-          <div className="form-group">
-            <label htmlFor="name">Name:</label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={handleChangeName}
-            />
-          </div>
           <div className="form-group">
             <label htmlFor="phoneNumber">Phone Number:</label>
             <input

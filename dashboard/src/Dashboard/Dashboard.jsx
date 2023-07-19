@@ -116,32 +116,24 @@ const Dashboard = () => {
             borderRadius: "5px",
             fontFamily: "Arial, sans-serif",
             }}>
-            <h3 style={{ 
+            <p style={{ 
                     color: "#333", 
                     fontSize: "24px",
                     marginBottom: "13px",
                 }}>
-                {patient.name}
-            </h3>
-            <p style={{ 
-                    color: "#666", 
-                    fontSize: "16px",
-                    fontWeight: "bold",
-                    marginBottom: "8px",
-                }}>
                 {patient.phoneNumber}
             </p>
             <div style={{ 
-                color: "#333", 
-                fontSize: "12px",
+                color: "#666", 
+                fontSize: "16px",
                 fontWeight: "bold",
-                marginBottom: "3px",
+                marginBottom: "5px",
             }}>
                 {patient.appointmentDate.substring(0,10)}
             </div>
             <div style={{ 
-                color: "#333", 
-                fontSize: "12px",
+                color: "#666", 
+                fontSize: "16px",
                 fontWeight: "bold",
                 marginBottom: "2px",
             }}>

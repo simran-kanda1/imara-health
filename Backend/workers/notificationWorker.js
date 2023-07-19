@@ -20,7 +20,7 @@ const notificationWorker = () => {
                     if(appointmentDate.date.includes(searchString))
                         return `Appointment Date : "${appointmentDate.date}" `
                 })
-                const message = `Hello ${element.name}. We hope you are doing well. Here is your reminder for your upcoming appointment. It is scheduled for ${appointmentDate} at ${showTime}. Thank You, Have A great Day.`;
+                const message = `Hello. We hope you are doing well. Here is your reminder for your upcoming appointment. It is scheduled for ${appointmentDate} at ${showTime}. Thank You, Have A great Day.`;
                 return {number : element.phoneNumber , message : message};
             }
         })

@@ -8,7 +8,7 @@ const SearchBar = ({ searchText, setSearchText }) => {
   return (
     <input
       type="text"
-      placeholder="Search patients by name"
+      placeholder="Search patients by phone number"
       value={searchText}
       onChange={handleInputChange}
     />

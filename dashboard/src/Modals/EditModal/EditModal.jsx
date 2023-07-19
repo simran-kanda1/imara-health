@@ -7,10 +7,8 @@ import { DesktopTimePicker } from '@mui/x-date-pickers/DesktopTimePicker';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 
 const EditPatientModal = ({ closeModal,user }) => {
-  const oldName= user.name;
   const oldAppointmentDate= dayjs(user.appointmentDate).format();
   const oldTime= user.showTime;
-  const [name, setName] = useState(user.name);
   const [appointmentDate, setAppointmentDate] = useState(dayjs(user.appointmentDate));
   const [time, setTime] = useState(dayjs('2023-07-12T01:00'));
   const [whatChanged, setWhatChanged] = useState("n/a");
@@ -21,19 +19,11 @@ const EditPatientModal = ({ closeModal,user }) => {
   const showDate= dayjs(appointmentDate).format();
   const status= "unsent";
 
-  const handleChangeName = (event) => {
-    setName(event.target.value);
-    setUpdated("")
-  };
-
   const handleChangeTime = (event) => {
     setTime(event.target.value);
   };
 
   const handleChanges = () => {
-    if (oldName != name){
-      setWhatChanged("name")
-    }
     if (oldAppointmentDate != showDate){
       setWhatChanged("appointmentDate")
     }
@@ -48,12 +38,12 @@ const EditPatientModal = ({ closeModal,user }) => {
   };
 
   const handleSubmit = () => {
-    if(name == "" || appointmentDate == "" || showTime == ""){
-        setError("Please Provide A Valid Name, Appointment Date and Time")
+    if(appointmentDate == "" || showTime == ""){
+        setError("Please Provide A Valid Appointment Date and Time")
     } else if (updated == ""){
         setError("Please Select 'Update Changes' Before Submitting")
     } else {
-        axios.post("https://imara-health-backend-v2.onrender.com/edit-user", {name,phoneNumber:user.phoneNumber,appointmentDate,showTime,status,whatChanged})
+        axios.post("https://imara-health-backend-v2.onrender.com/edit-user", {phoneNumber:user.phoneNumber,appointmentDate,showTime,status,whatChanged})
         .then(response => {
             if(response.data.message == "Data Updated"){
                 setError("")
@@ -78,15 +68,6 @@ const EditPatientModal = ({ closeModal,user }) => {
       </div>
       <div className="modal-body">
         <div className="modal-form">
-          <div className="form-group">
-            <label htmlFor="name">Name:</label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={handleChangeName}
-            />
-          </div>
           <div className="appointment-date-calendar">
            <label htmlFor="appointmentDate">Appointment Date:</label>
           </div>
