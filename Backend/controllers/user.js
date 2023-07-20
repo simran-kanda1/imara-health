@@ -20,6 +20,7 @@ exports.addUser = (req,res) => {
                 showTime: req.body.showTime,
                 status: req.body.status,
                 whatChanged: req.body.whatChanged,
+                languageStr: req.body.languageStr,
             })
             userData
             .save()
@@ -99,6 +100,7 @@ exports.editUser = (req,res) => {
             data.showTime= req.body.showTime;
             data.status= req.body.status;
             data.whatChanged= req.body.whatChanged;
+            data.languageStr= req.body.languageStr;
             data.save()
             .then(data => {
                 res.status(200).json({

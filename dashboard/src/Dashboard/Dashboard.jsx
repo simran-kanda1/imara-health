@@ -136,9 +136,17 @@ const Dashboard = () => {
                 color: "#666", 
                 fontSize: "16px",
                 fontWeight: "bold",
-                marginBottom: "2px",
+                marginBottom: "8px",
             }}>
                 {patient.showTime}
+            </div>
+            <div style={{ 
+                color: "#666", 
+                fontSize: "15px",
+                fontWeight: "bold",
+                marginBottom: "2px",
+            }}>
+                {patient.languageStr}
             </div>
             </div>
           <div className="dashboard-patient-right">

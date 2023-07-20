@@ -12,8 +12,13 @@ const EditPatientModal = ({ closeModal,user }) => {
   const [appointmentDate, setAppointmentDate] = useState(dayjs(user.appointmentDate));
   const [time, setTime] = useState(dayjs('2023-07-12T01:00'));
   const [whatChanged, setWhatChanged] = useState("n/a");
+  const [languageStr, setLanguageStr]= useState("english");
   const [updated, setUpdated]= useState("")
   const [error, setError] = useState("");
+  const [language, setLanguage]= useState({
+    English: false,
+    Swahili: false,
+  })
 
   const showTime= time.format("HH:mm");
   const showDate= dayjs(appointmentDate).format();
@@ -33,8 +38,28 @@ const EditPatientModal = ({ closeModal,user }) => {
     if (oldTime != showTime && oldAppointmentDate != showDate){
       setWhatChanged("time&appointmentDate")
     }
+    if(language.English == true){
+      setLanguageStr("english");
+    }
+    if(language.Swahili == true){
+      setLanguageStr("swahili");
+    }
     setError("Successfully Updated")
     setUpdated("yes")
+  };
+
+  const handleChangeLanguage = (event) => {
+    const { name, checked } = event.target;
+    setLanguage((prevLanguage) => ({
+      ...prevLanguage,
+      [name]: checked,
+    }));
+    if(language.English == true){
+      setLanguageStr("english");
+    }
+    if(language.Swahili == true){
+      setLanguageStr("swahili");
+    }
   };
 
   const handleSubmit = () => {
@@ -43,7 +68,7 @@ const EditPatientModal = ({ closeModal,user }) => {
     } else if (updated == ""){
         setError("Please Select 'Update Changes' Before Submitting")
     } else {
-        axios.post("https://imara-health-backend-v2.onrender.com/edit-user", {phoneNumber:user.phoneNumber,appointmentDate,showTime,status,whatChanged})
+        axios.post("https://imara-health-backend-v2.onrender.com/edit-user", {phoneNumber:user.phoneNumber,appointmentDate,showTime,status,languageStr,whatChanged})
         .then(response => {
             if(response.data.message == "Data Updated"){
                 setError("")
@@ -95,6 +120,31 @@ const EditPatientModal = ({ closeModal,user }) => {
         <div className="displayUpdates">
           <p>Current Appointment: {oldAppointmentDate.substring(0,10)} at {oldTime}</p>
           <p>Selected Appointment: {showDate.substring(0,10)} at {showTime}</p>
+        </div>
+        <p className="medicineHeader">Language Selected : {languageStr}</p>
+        <div className="form-group">
+            <div className="days-container">
+            <div>
+                <label htmlFor="English">English</label>
+                <input
+                type="checkbox"
+                id="English"
+                name="English"
+                checked={language.English}
+                onChange={handleChangeLanguage}
+                />
+            </div>
+            <div>
+                <label htmlFor="Swahili">Swahili</label>
+                <input
+                type="checkbox"
+                id="Swahili"
+                name="Swahili"
+                checked={language.Swahili}
+                onChange={handleChangeLanguage}
+                />
+            </div>
+            </div>
         </div>
         <div className="buttonList">
             <button onClick={handleChanges}>Update Changes</button>

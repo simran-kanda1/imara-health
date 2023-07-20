@@ -14,6 +14,11 @@ const AddPatientModal = ({ closeModal }) => {
   const [status,setStatus]= useState("unsent");
   const [error, setError] = useState("");
   const whatChanged= "n/a";
+  const [languageStr, setLanguageStr]= useState("english");
+  const [language, setLanguage]= useState({
+    English: false,
+    Swahili: false,
+  })
 
   const showDate= dayjs(appointmentDate).format();
   const showTime= time.format("HH:mm");
@@ -27,11 +32,34 @@ const AddPatientModal = ({ closeModal }) => {
     setTime(event.target.value);
   };
 
+  const handleChanges = () => {
+    if(language.English == true){
+      setLanguageStr("english");
+    }
+    if(language.Swahili == true){
+      setLanguageStr("swahili");
+    }
+  };
+
+  const handleChangeLanguage = (event) => {
+    const { name, checked } = event.target;
+    setLanguage((prevLanguage) => ({
+      ...prevLanguage,
+      [name]: checked,
+    }));
+    if(language.English == true){
+      setLanguageStr("english");
+    }
+    if(language.Swahili == true){
+      setLanguageStr("swahili");
+    }
+  };
+
   const handleSubmit = () => {
     if(phoneNumber == "" || appointmentDate == "" || showTime == ""){
         setError("Please Provide A Valid Phone Number, Appointment Date and Time")
     } else {
-        axios.post("https://imara-health-backend-v2.onrender.com/add-user", {phoneNumber,appointmentDate,showTime,status,whatChanged})
+        axios.post("https://imara-health-backend-v2.onrender.com/add-user", {phoneNumber,appointmentDate,showTime,status,whatChanged,languageStr})
         .then(response => {
             if(response.status == 500 || response.data.message == "Phone Number Already Registered"){
                 setError(response.data.message);
@@ -92,7 +120,33 @@ const AddPatientModal = ({ closeModal }) => {
         <div className="displayUpdates">
           <p>Selected Appointment: {showDate.substring(0,10)} at {showTime}</p>
         </div>
+        <p className="medicineHeader">Language Selected : {languageStr}</p>
+        <div className="form-group">
+            <div className="days-container">
+            <div>
+                <label htmlFor="English">English</label>
+                <input
+                type="checkbox"
+                id="English"
+                name="English"
+                checked={language.English}
+                onChange={handleChangeLanguage}
+                />
+            </div>
+            <div>
+                <label htmlFor="Swahili">Swahili</label>
+                <input
+                type="checkbox"
+                id="Swahili"
+                name="Swahili"
+                checked={language.Swahili}
+                onChange={handleChangeLanguage}
+                />
+            </div>
+            </div>
+        </div>
         <div className="buttonList">
+            <button onClick={handleChanges}>Save Language</button>
             <button onClick={handleSubmit}>Submit</button>
         </div>
         <div className="errorTag">{error}</div>
